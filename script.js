@@ -214,9 +214,9 @@ async function transmitMorse(morse) {
                 await lightSignal(600); // Dash = 600ms
                 playBeep(600, 600); // Lower pitch for dashes
             } else if (signal === ' ') {
-                await delay(400); // Space between letters
+                await delay(600); // Space between letters (increased)
             } else if (signal === '/') {
-                await delay(800); // Space between words
+                await delay(1200); // Space between words (increased)
             }
         }
         

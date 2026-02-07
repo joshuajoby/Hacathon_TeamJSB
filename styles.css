@@ -4,19 +4,27 @@
    ======================================== */
 
 :root {
-    --phosphor-green: #33ff33;
-    --phosphor-dim: #1a8a1a;
-    --phosphor-glow: rgba(51, 255, 51, 0.4);
-    --cyan-blue: #00ffff;
-    --cyan-dim: #008b8b;
-    --amber: #ffaa00;
-    --amber-dim: #cc8800;
-    --red-alert: #ff3333;
-    --screen-bg: #0a0a0a;
+    --stranger-red: #ed1c24;
+    --stranger-red-dim: #a01419;
+    --stranger-red-glow: rgba(237, 28, 36, 0.6);
+    --stranger-yellow: #f4d03f;
+    --stranger-yellow-dim: #d4a900;
+    --stranger-blue: #3a5683;
+    --stranger-blue-dim: #1e3a5f;
+    --stranger-orange: #ff6b35;
+    --stranger-orange-dim: #cc4422;
+    --neon-green: #39ff14;
+    --neon-green-dim: #2acc0a;
+    --neon-green-glow: rgba(57, 255, 20, 0.6);
+    --neon-pink: #ff0000;
+    --neon-pink-dim: #cc0000;
+    --neon-pink-glow: rgba(255, 0, 0, 0.6);
+    --screen-bg: #0d0d0d;
     --terminal-bg: #000000;
-    --danger-red: #ff3333;
-    --warning-amber: #ffaa00;
+    --danger-red: #ed1c24;
+    --warning-amber: #f4d03f;
     --possession-purple: #aa00ff;
+    --upside-down-purple: #4a148c;
 }
 
 * {
@@ -31,9 +39,10 @@
 }
 
 body {
-    background: var(--screen-bg);
+    background: linear-gradient(180deg, #000000 0%, #1a0000 50%, #000000 100%);
+    background-attachment: fixed;
     font-family: 'Terminal', 'Courier New', monospace;
-    color: var(--phosphor-green);
+    color: var(--stranger-red);
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
@@ -80,14 +89,15 @@ body {
 
 /* Terminal Container */
 .terminal-container {
-    background: var(--terminal-bg);
-    border: 4px solid var(--phosphor-green);
+    background: linear-gradient(135deg, #000000 0%, #0d0000 100%);
+    border: 5px solid var(--stranger-red);
     box-shadow: 
-        0 0 20px var(--phosphor-glow),
-        inset 0 0 100px rgba(0, 0, 0, 0.9);
-    max-width: 900px;
+        0 0 30px var(--stranger-red-glow),
+        0 0 60px rgba(237, 28, 36, 0.3),
+        inset 0 0 100px rgba(0, 0, 0, 0.95);
+    max-width: 1400px;
     width: 100%;
-    padding: 20px;
+    padding: 25px;
     position: relative;
     animation: screen-flicker 0.15s infinite alternate;
 }
@@ -133,23 +143,29 @@ body.possessed * {
 /* Header */
 .terminal-header {
     text-align: center;
-    border-bottom: 2px solid var(--phosphor-green);
+    border-bottom: 3px solid var(--stranger-red);
     padding-bottom: 15px;
     margin-bottom: 20px;
+    background: rgba(237, 28, 36, 0.05);
+    padding: 15px;
+    margin: -25px -25px 20px -25px;
 }
 
 .header-text {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: bold;
-    letter-spacing: 3px;
-    text-shadow: 0 0 10px var(--phosphor-glow);
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px var(--neon-pink-glow), 0 0 35px var(--neon-pink-glow);
+    color: var(--neon-pink);
 }
 
 .header-subtitle {
     font-size: 12px;
     margin-top: 8px;
     letter-spacing: 2px;
-    opacity: 0.8;
+    color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green-glow);
+    font-weight: bold;
 }
 
 .blink {
@@ -166,31 +182,39 @@ body.possessed * {
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
     margin-bottom: 20px;
-    padding: 10px;
-    border: 2px solid var(--phosphor-dim);
-    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border: 2px solid var(--stranger-red-dim);
+    background: rgba(237, 28, 36, 0.08);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
 }
 
 .status-item {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 .label {
     font-weight: bold;
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink-glow);
 }
 
 .value {
     text-align: right;
+    color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green-glow);
 }
 
 .status-normal {
-    color: var(--phosphor-green);
+    color: var(--neon-green);
+    text-shadow: 0 0 12px var(--neon-green-glow), 0 0 20px var(--neon-green-glow);
 }
 
 .status-warning {
-    color: var(--warning-amber);
+    color: var(--stranger-orange);
+    text-shadow: 0 0 5px rgba(255, 107, 53, 0.4);
 }
 
 .status-danger {
@@ -202,8 +226,9 @@ body.possessed * {
 .sanity-container {
     margin-bottom: 20px;
     padding: 15px;
-    border: 2px solid var(--phosphor-green);
-    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--stranger-red);
+    background: rgba(237, 28, 36, 0.08);
+    box-shadow: 0 0 15px rgba(237, 28, 36, 0.2);
 }
 
 .meter-label {
@@ -212,32 +237,35 @@ body.possessed * {
     margin-bottom: 8px;
     text-align: center;
     letter-spacing: 2px;
+    color: var(--neon-pink);
+    text-shadow: 0 0 15px var(--neon-pink-glow), 0 0 25px var(--neon-pink-glow);
 }
 
 .meter-outer {
-    height: 30px;
-    border: 2px solid var(--phosphor-green);
+    height: 35px;
+    border: 3px solid var(--neon-pink);
     background: var(--terminal-bg);
     position: relative;
     overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9), 0 0 15px var(--neon-pink-glow);
 }
 
 .meter-inner {
     height: 100%;
     width: 100%;
-    background: var(--phosphor-green);
-    box-shadow: 0 0 10px var(--phosphor-glow);
+    background: linear-gradient(90deg, var(--neon-green) 0%, var(--stranger-yellow) 50%, var(--stranger-orange) 100%);
+    box-shadow: 0 0 20px var(--neon-green-glow), inset 0 0 15px rgba(255, 255, 255, 0.3);
     transition: width 0.3s linear, background-color 0.3s;
 }
 
 .meter-inner.warning {
-    background: var(--warning-amber);
-    box-shadow: 0 0 10px rgba(255, 170, 0, 0.6);
+    background: linear-gradient(90deg, var(--stranger-orange) 0%, var(--stranger-red) 100%);
+    box-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
 }
 
 .meter-inner.danger {
-    background: var(--danger-red);
-    box-shadow: 0 0 10px rgba(255, 51, 51, 0.6);
+    background: var(--stranger-red);
+    box-shadow: 0 0 20px var(--stranger-red-glow);
     animation: pulse 0.5s infinite;
 }
 
@@ -248,9 +276,11 @@ body.possessed * {
 
 .meter-value {
     text-align: center;
-    font-size: 12px;
+    font-size: 13px;
     margin-top: 5px;
     font-weight: bold;
+    color: var(--neon-green);
+    text-shadow: 0 0 12px var(--neon-green-glow), 0 0 20px var(--neon-green-glow);
 }
 
 /* Warning Zone */
@@ -295,21 +325,24 @@ body.possessed * {
 }
 
 .panel-section {
-    border: 2px solid var(--phosphor-dim);
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--stranger-red-dim);
+    padding: 18px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(13, 0, 0, 0.4) 100%);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.7), 0 0 10px rgba(237, 28, 36, 0.1);
 }
 
 .section-title {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
     margin-bottom: 12px;
     letter-spacing: 2px;
-    border-bottom: 1px solid var(--phosphor-dim);
-    padding-bottom: 5px;
+    border-bottom: 3px solid var(--stranger-red);
+    padding-bottom: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: var(--stranger-yellow);
+    text-shadow: 0 0 15px rgba(244, 208, 63, 0.6), 0 0 25px rgba(244, 208, 63, 0.3);
 }
 
 /* Input Section */
@@ -320,44 +353,52 @@ body.possessed * {
 
 .retro-input {
     flex: 1;
-    background: var(--terminal-bg);
-    border: 2px solid var(--phosphor-green);
-    color: var(--phosphor-green);
+    background: rgba(0, 0, 0, 0.9);
+    border: 3px solid var(--neon-green-dim);
+    color: var(--neon-green);
+    padding: 14px;
+    font-size: 14px;
     font-family: 'Terminal', monospace;
-    font-size: 16px;
-    padding: 12px;
-    text-transform: uppercase;
     letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.2s;
     outline: none;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9), 0 0 10px var(--neon-green-glow);
+    text-shadow: 0 0 10px var(--neon-green-glow);
 }
 
 .retro-input:focus {
-    box-shadow: 0 0 10px var(--phosphor-glow);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9), 0 0 25px var(--neon-green-glow);
+    border-color: var(--neon-green);
 }
 
 .retro-input::placeholder {
-    color: var(--phosphor-dim);
+    color: var(--neon-green-dim);
     opacity: 0.6;
+    text-shadow: none;
 }
 
 .retro-button {
-    background: var(--terminal-bg);
-    border: 3px solid var(--phosphor-green);
-    color: var(--phosphor-green);
+    background: rgba(0, 0, 0, 0.9);
+    border: 4px solid var(--neon-pink);
+    color: var(--neon-pink);
     font-family: 'Terminal', monospace;
     font-size: 14px;
     font-weight: bold;
-    padding: 12px 24px;
+    padding: 14px 28px;
     cursor: pointer;
     letter-spacing: 2px;
-    transition: all 0.1s;
-    text-shadow: 0 0 5px var(--phosphor-glow);
+    transition: all 0.2s;
+    text-shadow: 0 0 15px var(--neon-pink-glow), 0 0 25px var(--neon-pink-glow);
+    box-shadow: 0 0 15px var(--neon-pink-glow);
 }
 
 .retro-button:hover {
-    background: var(--phosphor-green);
-    color: var(--terminal-bg);
-    box-shadow: 0 0 15px var(--phosphor-glow);
+    background: var(--neon-pink);
+    color: #000000;
+    box-shadow: 0 0 35px var(--neon-pink-glow), inset 0 0 20px rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    text-shadow: none;
 }
 
 .retro-button:active {
@@ -375,23 +416,31 @@ body.possessed * {
 
 .small-button {
     background: transparent;
-    border: 1px solid var(--phosphor-green);
-    color: var(--phosphor-green);
+    border: 2px solid var(--neon-pink);
+    color: var(--neon-pink);
     font-family: 'Terminal', monospace;
-    font-size: 10px;
-    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 6px 12px;
     cursor: pointer;
+    text-shadow: 0 0 10px var(--neon-pink-glow);
+    box-shadow: 0 0 8px var(--neon-pink-glow);
+    transition: all 0.2s;
 }
 
 .small-button:hover {
-    background: var(--phosphor-dim);
+    background: var(--neon-pink);
+    color: #000000;
+    box-shadow: 0 0 20px var(--neon-pink-glow);
+    text-shadow: none;
 }
 
 /* Morse Code Transmission Display */
 .transmission-display {
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--phosphor-dim);
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--stranger-red-dim);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.9);
 }
 
 .morse-lights {
@@ -408,12 +457,13 @@ body.possessed * {
 }
 
 .morse-light {
-    width: 50px;
-    height: 50px;
-    border: 2px solid var(--phosphor-dim);
-    background: var(--terminal-bg);
+    width: 55px;
+    height: 55px;
+    border: 3px solid var(--stranger-red-dim);
+    background: rgba(0, 0, 0, 0.9);
     position: relative;
-    transition: all 0.1s;
+    transition: all 0.15s;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
 }
 
 .morse-light::before {
@@ -422,23 +472,25 @@ body.possessed * {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 30px;
-    height: 30px;
-    background: var(--phosphor-dim);
-    opacity: 0.3;
+    width: 35px;
+    height: 35px;
+    background: var(--stranger-red-dim);
+    opacity: 0.2;
 }
 
 .morse-light.active {
-    background: var(--phosphor-green);
+    background: var(--stranger-red);
+    border-color: var(--stranger-yellow);
     box-shadow: 
-        0 0 20px var(--phosphor-glow),
-        inset 0 0 10px rgba(255, 255, 255, 0.5);
+        0 0 30px var(--stranger-red-glow),
+        0 0 60px rgba(237, 28, 36, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 .morse-light.active::before {
-    background: #ffffff;
+    background: var(--stranger-yellow);
     opacity: 1;
-    box-shadow: 0 0 15px var(--phosphor-glow);
+    box-shadow: 0 0 20px rgba(244, 208, 63, 0.8);
 }
 
 /* Corrupted lights in possessed mode */
@@ -457,18 +509,21 @@ body.possessed .morse-light.active {
 
 .signal-indicator {
     text-align: center;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
-    padding: 10px;
-    border-top: 1px solid var(--phosphor-dim);
+    padding: 14px;
+    border-top: 3px solid var(--neon-pink);
+    color: var(--neon-pink);
+    text-shadow: 0 0 15px var(--neon-pink-glow), 0 0 25px var(--neon-pink-glow);
 }
 
 /* Decoder Panel */
 .decoder-panel {
     margin-top: 15px;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--phosphor-dim);
+    padding: 18px;
+    background: linear-gradient(135deg, rgba(255, 16, 240, 0.05) 0%, rgba(0, 0, 0, 0.9) 100%);
+    border: 3px solid var(--neon-pink);
+    box-shadow: 0 0 20px var(--neon-pink-glow), inset 0 0 25px rgba(0, 0, 0, 0.8);
 }
 
 .decoder-grid {
@@ -479,9 +534,23 @@ body.possessed .morse-light.active {
 }
 
 .decoder-item {
-    padding: 5px;
-    border: 1px solid var(--phosphor-dim);
+    padding: 10px;
+    border: 2px solid var(--neon-green);
     text-align: center;
+    color: var(--neon-green);
+    background: rgba(0, 0, 0, 0.9);
+    transition: all 0.2s;
+    text-shadow: 0 0 10px var(--neon-green-glow), 0 0 18px var(--neon-green-glow);
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.decoder-item:hover {
+    background: rgba(57, 255, 20, 0.15);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+    text-shadow: 0 0 15px var(--neon-pink-glow), 0 0 25px var(--neon-pink-glow);
+    transform: scale(1.05);
 }
 
 /* Recovery Panel */
@@ -536,23 +605,30 @@ body.possessed .morse-light.active {
 
 /* Footer */
 .terminal-footer {
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 2px solid var(--phosphor-green);
+    margin-top: 25px;
+    padding-top: 18px;
+    border-top: 3px solid var(--stranger-red);
     text-align: center;
+    background: rgba(237, 28, 36, 0.05);
+    padding: 18px;
+    margin: 25px -25px -25px -25px;
 }
 
 .footer-text {
     font-size: 11px;
     margin-bottom: 8px;
-    opacity: 0.7;
+    opacity: 0.9;
     letter-spacing: 1px;
+    color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green-glow);
+    font-weight: bold;
 }
 
 .footer-warning {
     font-size: 12px;
     font-weight: bold;
-    color: var(--warning-amber);
+    color: var(--neon-pink);
+    text-shadow: 0 0 15px var(--neon-pink-glow), 0 0 25px var(--neon-pink-glow);
 }
 
 /* Responsive Design */
@@ -602,17 +678,20 @@ body.possessed .morse-light.active {
 
 /* AI Suggestions Panel */
 .ai-panel {
-    background: rgba(0, 255, 255, 0.05);
-    border: 2px solid var(--cyan-dim);
-    padding: 12px;
-    margin-top: 10px;
+    background: linear-gradient(135deg, rgba(255, 16, 240, 0.08) 0%, rgba(57, 255, 20, 0.08) 100%);
+    border: 3px solid var(--neon-pink);
+    padding: 14px;
+    margin-top: 12px;
+    box-shadow: 0 0 20px var(--neon-pink-glow), inset 0 0 20px rgba(0, 0, 0, 0.7);
 }
 
 .ai-label {
-    font-size: 11px;
-    color: var(--cyan-blue);
-    margin-bottom: 8px;
-    letter-spacing: 1px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--neon-pink);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px var(--neon-pink-glow), 0 0 25px var(--neon-pink-glow);
 }
 
 .suggestion-buttons {
@@ -622,30 +701,37 @@ body.possessed .morse-light.active {
 }
 
 .suggestion-btn {
-    background: transparent;
-    border: 1px solid var(--cyan-dim);
-    color: var(--cyan-blue);
+    background: rgba(57, 255, 20, 0.05);
+    border: 2px solid var(--neon-green);
+    color: var(--neon-green);
     font-family: 'Terminal', monospace;
-    font-size: 10px;
-    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 8px 14px;
     cursor: pointer;
-    transition: all 0.1s;
+    transition: all 0.15s;
+    text-shadow: 0 0 10px var(--neon-green-glow);
+    box-shadow: 0 0 8px var(--neon-green-glow);
 }
 
 .suggestion-btn:hover {
-    background: var(--cyan-dim);
-    color: var(--terminal-bg);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    background: var(--neon-green);
+    color: #000000;
+    box-shadow: 0 0 25px var(--neon-green-glow), inset 0 0 10px rgba(255, 255, 255, 0.5);
+    border-color: var(--neon-green);
+    text-shadow: none;
 }
 
 .suggestion-btn.ai-learned {
-    border-color: var(--cyan-blue);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+    text-shadow: 0 0 15px var(--neon-pink-glow);
     animation: ai-pulse 2s infinite;
 }
 
 @keyframes ai-pulse {
-    0%, 100% { border-color: var(--cyan-dim); }
-    50% { border-color: var(--cyan-blue); box-shadow: 0 0 5px rgba(0, 255, 255, 0.4); }
+    0%, 100% { border-color: var(--neon-pink-dim); box-shadow: 0 0 8px var(--neon-pink-glow); }
+    50% { border-color: var(--neon-pink); box-shadow: 0 0 20px var(--neon-pink-glow), 0 0 30px var(--neon-pink-glow); }
 }
 
 /* Autocomplete Suggestion */
@@ -655,14 +741,15 @@ body.possessed .morse-light.active {
     left: 0;
     right: 100px;
     margin-top: 2px;
-    padding: 8px 12px;
-    background: rgba(0, 255, 255, 0.1);
-    border: 1px solid var(--cyan-dim);
-    color: var(--cyan-blue);
+    padding: 10px 14px;
+    background: rgba(244, 208, 63, 0.15);
+    border: 2px solid var(--stranger-yellow-dim);
+    color: var(--stranger-yellow);
     font-family: 'Terminal', monospace;
     font-size: 11px;
     z-index: 10;
     animation: blink 1s infinite;
+    box-shadow: 0 0 15px rgba(244, 208, 63, 0.2);
 }
 
 .autocomplete-suggestion::before {
@@ -676,20 +763,23 @@ body.possessed .morse-light.active {
 
 /* Transmission History */
 .history-panel {
-    background: rgba(255, 170, 0, 0.05);
-    border: 2px solid var(--amber-dim);
-    padding: 12px;
-    max-height: 200px;
+    background: rgba(237, 28, 36, 0.08);
+    border: 2px solid var(--stranger-red-dim);
+    padding: 14px;
+    max-height: 250px;
     overflow-y: auto;
+    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8);
 }
 
 .history-title {
-    font-size: 11px;
-    color: var(--amber);
-    margin-bottom: 8px;
-    letter-spacing: 1px;
-    border-bottom: 1px solid var(--amber-dim);
-    padding-bottom: 4px;
+    font-size: 13px;
+    color: var(--neon-pink);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--neon-pink);
+    padding-bottom: 8px;
+    text-shadow: 0 0 15px var(--neon-pink-glow), 0 0 25px var(--neon-pink-glow);
+    font-weight: bold;
 }
 
 .history-log {
@@ -698,9 +788,11 @@ body.possessed .morse-light.active {
 }
 
 .history-entry {
-    padding: 4px 0;
-    border-bottom: 1px dashed rgba(255, 170, 0, 0.2);
-    color: var(--amber);
+    padding: 5px 0;
+    border-bottom: 1px dashed rgba(255, 16, 240, 0.3);
+    color: var(--neon-green);
+    text-shadow: 0 0 8px var(--neon-green-glow);
+    font-weight: bold;
 }
 
 .history-entry:last-child {
@@ -708,37 +800,41 @@ body.possessed .morse-light.active {
 }
 
 .history-time {
-    color: var(--amber-dim);
-    margin-right: 8px;
+    color: var(--neon-pink-dim);
+    margin-right: 10px;
+    text-shadow: 0 0 8px var(--neon-pink-glow);
 }
 
 .history-message {
-    color: var(--amber);
+    color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green-glow);
 }
 
 /* Scrollbar for history */
 .history-panel::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
 }
 
 .history-panel::-webkit-scrollbar-track {
-    background: var(--terminal-bg);
-    border: 1px solid var(--amber-dim);
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid var(--stranger-red-dim);
 }
 
 .history-panel::-webkit-scrollbar-thumb {
-    background: var(--amber-dim);
+    background: var(--stranger-red);
+    box-shadow: 0 0 10px rgba(237, 28, 36, 0.4);
 }
 
 /* Connection Status Indicators */
 .status-indicators {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    padding: 12px;
-    background: rgba(51, 255, 51, 0.05);
-    border: 2px solid var(--phosphor-dim);
-    margin-bottom: 15px;
+    gap: 12px;
+    padding: 15px;
+    background: rgba(237, 28, 36, 0.08);
+    border: 2px solid var(--stranger-red-dim);
+    margin-bottom: 20px;
+    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8);
 }
 
 .indicator {
@@ -749,30 +845,32 @@ body.possessed .morse-light.active {
 }
 
 .indicator-light {
-    width: 12px;
-    height: 12px;
-    border: 2px solid var(--phosphor-dim);
-    background: var(--terminal-bg);
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--stranger-red-dim);
+    background: rgba(0, 0, 0, 0.9);
     position: relative;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
 }
 
 .indicator-light.active {
-    background: var(--phosphor-green);
-    box-shadow: 0 0 10px var(--phosphor-glow);
+    background: var(--stranger-yellow);
+    border-color: var(--stranger-yellow);
+    box-shadow: 0 0 15px rgba(244, 208, 63, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.3);
     animation: pulse-light 2s infinite;
 }
 
 .indicator-light.active-cyan {
-    background: var(--cyan-blue);
-    border-color: var(--cyan-dim);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    background: var(--stranger-red);
+    border-color: var(--stranger-red);
+    box-shadow: 0 0 15px var(--stranger-red-glow), inset 0 0 8px rgba(255, 255, 255, 0.3);
     animation: pulse-light 2s infinite;
 }
 
 .indicator-light.active-amber {
-    background: var(--amber);
-    border-color: var(--amber-dim);
-    box-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
+    background: var(--stranger-orange);
+    border-color: var(--stranger-orange);
+    box-shadow: 0 0 15px rgba(255, 107, 53, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.3);
     animation: pulse-light 2s infinite;
 }
 
@@ -798,8 +896,11 @@ body.possessed .indicator-light.active {
 }
 
 .indicator-label {
-    color: var(--phosphor-green);
+    color: var(--neon-green);
     letter-spacing: 1px;
+    text-shadow: 0 0 10px var(--neon-green-glow);
+    font-weight: bold;
+    font-size: 11px;
 }
 
 /* Grid Layout for main content */
@@ -825,12 +926,69 @@ body.possessed .indicator-light.active {
 /* ML Stats highlighting */
 #ml-pred-count,
 #ml-vocab-size {
-    color: var(--phosphor-green);
+    color: var(--neon-pink) !important;
     font-weight: bold;
+    text-shadow: 0 0 15px var(--neon-pink-glow), 0 0 25px var(--neon-pink-glow) !important;
+    font-size: 14px;
 }
 
 #ml-accuracy {
-    color: var(--cyan-blue);
+    color: var(--neon-pink) !important;
     font-weight: bold;
+    text-shadow: 0 0 15px var(--neon-pink-glow), 0 0 25px var(--neon-pink-glow) !important;
+    font-size: 14px;
+}
+
+/* ML Stats Panel */
+.ml-stats-panel {
+    background: linear-gradient(135deg, rgba(57, 255, 20, 0.08) 0%, rgba(0, 0, 0, 0.9) 100%) !important;
+    border: 3px solid var(--neon-green) !important;
+    box-shadow: 0 0 20px var(--neon-green-glow), inset 0 0 25px rgba(0, 0, 0, 0.9) !important;
+}
+
+.ml-stats-title {
+    color: var(--neon-green) !important;
+    border-bottom-color: var(--neon-green) !important;
+    text-shadow: 0 0 15px var(--neon-green-glow), 0 0 25px var(--neon-green-glow) !important;
+    font-size: 15px !important;
+}
+
+.ml-stats-content {
+    font-size: 13px;
+    padding: 10px;
+    line-height: 2.2;
+    color: var(--neon-green);
+    text-shadow: 0 0 12px var(--neon-green-glow), 0 0 20px var(--neon-green-glow);
+    font-weight: bold;
+}
+
+.ml-stats-content div {
+    margin-bottom: 6px;
+    color: var(--neon-green);
+}
+
+.ml-stats-content div::before {
+    color: var(--neon-pink);
+    text-shadow: 0 0 15px var(--neon-pink-glow);
+}
+
+.ml-stats-content span {
+    color: var(--neon-pink);
+    text-shadow: 0 0 15px var(--neon-pink-glow), 0 0 25px var(--neon-pink-glow);
+    font-weight: bold;
+}
+
+.ml-stats-content strong {
+    color: var(--neon-pink);
+    text-shadow: 0 0 15px var(--neon-pink-glow), 0 0 25px var(--neon-pink-glow);
+    font-size: 14px;
+}
+
+.ml-features {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 2px dashed var(--neon-pink);
+    color: var(--neon-green);
+    text-shadow: 0 0 12px var(--neon-green-glow), 0 0 20px var(--neon-green-glow);
 }
 
