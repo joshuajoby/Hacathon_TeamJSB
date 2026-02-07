@@ -344,7 +344,7 @@ state.sanityTimer = setInterval(() => {
         elements.interferenceLevel.textContent = 'HIGH';
         elements.interferenceLevel.className = 'value status-warning';
     }
-}, 50000);
+}, 350);
 
 function updateSanityDisplay() {
     elements.sanityBar.style.width = state.sanity + '%';
