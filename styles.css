@@ -1,0 +1,596 @@
+/* ========================================
+   UPSIDE DOWN COMMUNICATOR :: 1983 STYLES
+   Retro Terminal Aesthetic
+   ======================================== */
+
+:root {
+    --phosphor-green: #33ff33;
+    --phosphor-dim: #1a8a1a;
+    --phosphor-glow: rgba(51, 255, 51, 0.4);
+    --screen-bg: #0a0a0a;
+    --terminal-bg: #000000;
+    --danger-red: #ff3333;
+    --warning-amber: #ffaa00;
+    --possession-purple: #aa00ff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Terminal';
+    src: local('Courier New'), local('Consolas'), monospace;
+}
+
+body {
+    background: var(--screen-bg);
+    font-family: 'Terminal', 'Courier New', monospace;
+    color: var(--phosphor-green);
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* CRT Screen Effects */
+.crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+    pointer-events: none;
+    z-index: 999;
+}
+
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 998;
+    animation: scanline-move 8s linear infinite;
+}
+
+@keyframes scanline-move {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(10px); }
+}
+
+/* Terminal Container */
+.terminal-container {
+    background: var(--terminal-bg);
+    border: 4px solid var(--phosphor-green);
+    box-shadow: 
+        0 0 20px var(--phosphor-glow),
+        inset 0 0 100px rgba(0, 0, 0, 0.9);
+    max-width: 900px;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    animation: screen-flicker 0.15s infinite alternate;
+}
+
+@keyframes screen-flicker {
+    0% { opacity: 0.97; }
+    100% { opacity: 1; }
+}
+
+/* Possession Mode Styles */
+body.possessed {
+    animation: possession-shake 0.1s infinite;
+}
+
+body.possessed .terminal-container {
+    border-color: var(--possession-purple);
+    box-shadow: 
+        0 0 30px rgba(170, 0, 255, 0.6),
+        inset 0 0 100px rgba(170, 0, 255, 0.3);
+    animation: glitch 0.3s infinite;
+}
+
+body.possessed * {
+    color: var(--possession-purple) !important;
+}
+
+@keyframes possession-shake {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-2px, 2px) rotate(-0.5deg); }
+    50% { transform: translate(2px, -2px) rotate(0.5deg); }
+    75% { transform: translate(-2px, -2px) rotate(-0.5deg); }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* Header */
+.terminal-header {
+    text-align: center;
+    border-bottom: 2px solid var(--phosphor-green);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.header-text {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px var(--phosphor-glow);
+}
+
+.header-subtitle {
+    font-size: 12px;
+    margin-top: 8px;
+    letter-spacing: 2px;
+    opacity: 0.8;
+}
+
+.blink {
+    animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* Status Bar */
+.status-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 2px solid var(--phosphor-dim);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.value {
+    text-align: right;
+}
+
+.status-normal {
+    color: var(--phosphor-green);
+}
+
+.status-warning {
+    color: var(--warning-amber);
+}
+
+.status-danger {
+    color: var(--danger-red);
+    animation: blink 0.5s infinite;
+}
+
+/* Sanity Meter */
+.sanity-container {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 2px solid var(--phosphor-green);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.meter-label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.meter-outer {
+    height: 30px;
+    border: 2px solid var(--phosphor-green);
+    background: var(--terminal-bg);
+    position: relative;
+    overflow: hidden;
+}
+
+.meter-inner {
+    height: 100%;
+    width: 100%;
+    background: var(--phosphor-green);
+    box-shadow: 0 0 10px var(--phosphor-glow);
+    transition: width 0.3s linear, background-color 0.3s;
+}
+
+.meter-inner.warning {
+    background: var(--warning-amber);
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.6);
+}
+
+.meter-inner.danger {
+    background: var(--danger-red);
+    box-shadow: 0 0 10px rgba(255, 51, 51, 0.6);
+    animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.meter-value {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* Warning Zone */
+.warning-zone {
+    min-height: 30px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.warning-message {
+    padding: 8px;
+    border: 2px solid var(--danger-red);
+    background: rgba(255, 51, 51, 0.1);
+    color: var(--danger-red);
+    animation: blink 0.5s infinite;
+}
+
+/* Audio Warning */
+.audio-warning {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid var(--warning-amber);
+    background: rgba(255, 170, 0, 0.1);
+    color: var(--warning-amber);
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.audio-warning .blink {
+    font-size: 16px;
+}
+
+/* Communication Panel */
+.comm-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.panel-section {
+    border: 2px solid var(--phosphor-dim);
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--phosphor-dim);
+    padding-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Input Section */
+.input-container {
+    display: flex;
+    gap: 10px;
+}
+
+.retro-input {
+    flex: 1;
+    background: var(--terminal-bg);
+    border: 2px solid var(--phosphor-green);
+    color: var(--phosphor-green);
+    font-family: 'Terminal', monospace;
+    font-size: 16px;
+    padding: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    outline: none;
+}
+
+.retro-input:focus {
+    box-shadow: 0 0 10px var(--phosphor-glow);
+}
+
+.retro-input::placeholder {
+    color: var(--phosphor-dim);
+    opacity: 0.6;
+}
+
+.retro-button {
+    background: var(--terminal-bg);
+    border: 3px solid var(--phosphor-green);
+    color: var(--phosphor-green);
+    font-family: 'Terminal', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 24px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.1s;
+    text-shadow: 0 0 5px var(--phosphor-glow);
+}
+
+.retro-button:hover {
+    background: var(--phosphor-green);
+    color: var(--terminal-bg);
+    box-shadow: 0 0 15px var(--phosphor-glow);
+}
+
+.retro-button:active {
+    transform: scale(0.95);
+}
+
+.retro-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.button-bracket {
+    font-size: 18px;
+}
+
+.small-button {
+    background: transparent;
+    border: 1px solid var(--phosphor-green);
+    color: var(--phosphor-green);
+    font-family: 'Terminal', monospace;
+    font-size: 10px;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.small-button:hover {
+    background: var(--phosphor-dim);
+}
+
+/* Morse Code Transmission Display */
+.transmission-display {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--phosphor-dim);
+}
+
+.morse-lights {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.light-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.morse-light {
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--phosphor-dim);
+    background: var(--terminal-bg);
+    position: relative;
+    transition: all 0.1s;
+}
+
+.morse-light::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    background: var(--phosphor-dim);
+    opacity: 0.3;
+}
+
+.morse-light.active {
+    background: var(--phosphor-green);
+    box-shadow: 
+        0 0 20px var(--phosphor-glow),
+        inset 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.morse-light.active::before {
+    background: #ffffff;
+    opacity: 1;
+    box-shadow: 0 0 15px var(--phosphor-glow);
+}
+
+/* Corrupted lights in possessed mode */
+body.possessed .morse-light.active {
+    background: var(--possession-purple);
+    box-shadow: 
+        0 0 20px rgba(170, 0, 255, 0.6),
+        inset 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: flicker-random 0.1s infinite;
+}
+
+@keyframes flicker-random {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.signal-indicator {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px;
+    border-top: 1px solid var(--phosphor-dim);
+}
+
+/* Decoder Panel */
+.decoder-panel {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--phosphor-dim);
+}
+
+.decoder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+    font-size: 11px;
+}
+
+.decoder-item {
+    padding: 5px;
+    border: 1px solid var(--phosphor-dim);
+    text-align: center;
+}
+
+/* Recovery Panel */
+.recovery-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--terminal-bg);
+    border: 4px solid var(--danger-red);
+    padding: 30px;
+    z-index: 1000;
+    box-shadow: 0 0 50px rgba(255, 51, 51, 0.8);
+    animation: blink 0.5s infinite;
+    max-width: 600px;
+    width: 90%;
+}
+
+.recovery-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--danger-red);
+    letter-spacing: 3px;
+}
+
+.recovery-text {
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--danger-red);
+}
+
+.recovery-hint {
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--warning-amber);
+    border: 1px solid var(--warning-amber);
+    padding: 10px;
+}
+
+.recovery-progress {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--phosphor-green);
+    min-height: 30px;
+    letter-spacing: 3px;
+}
+
+/* Footer */
+.terminal-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid var(--phosphor-green);
+    text-align: center;
+}
+
+.footer-text {
+    font-size: 11px;
+    margin-bottom: 8px;
+    opacity: 0.7;
+    letter-spacing: 1px;
+}
+
+.footer-warning {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--warning-amber);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .status-bar {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .input-container {
+        flex-direction: column;
+    }
+    
+    .header-text {
+        font-size: 16px;
+    }
+    
+    .morse-light {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .morse-light::before {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .decoder-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+}
+
+/* Screen Text Effect */
+.terminal-container {
+    text-shadow: 0 0 5px currentColor;
+}
+
+/* Prevent text selection for better retro feel */
+.terminal-header,
+.status-bar,
+.meter-label,
+.section-title,
+.footer-text,
+.footer-warning {
+    user-select: none;
+}

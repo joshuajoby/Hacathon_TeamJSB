@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSIDE DOWN COMMUNICATOR :: 1983 HAWKINS LAB TERMINAL</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="crt-overlay"></div>
+    <div class="scanlines"></div>
+    
+    <div class="terminal-container">
+        <!-- Header -->
+        <div class="terminal-header">
+            <div class="header-text">
+                <span class="blink">█</span> HAWKINS NATIONAL LABORATORY <span class="blink">█</span>
+            </div>
+            <div class="header-subtitle">
+                INTER-DIMENSIONAL COMMUNICATION TERMINAL :: V1.983
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="label">SYSTEM:</span>
+                <span id="system-status" class="value status-normal">OPERATIONAL</span>
+            </div>
+            <div class="status-item">
+                <span class="label">INTERFERENCE:</span>
+                <span id="interference-level" class="value">MINIMAL</span>
+            </div>
+            <div class="status-item">
+                <span class="label">DIMENSION:</span>
+                <span id="dimension" class="value">NORMAL</span>
+            </div>
+        </div>
+
+        <!-- Sanity Meter -->
+        <div class="sanity-container">
+            <div class="meter-label">NEURAL STABILITY</div>
+            <div class="meter-outer">
+                <div id="sanity-bar" class="meter-inner"></div>
+            </div>
+            <div class="meter-value">
+                <span id="sanity-percentage">10</span>%
+            </div>
+        </div>
+
+        <!-- Warning Messages -->
+        <div id="warning-zone" class="warning-zone"></div>
+
+        <!-- Audio Initialization Warning -->
+        <div id="audio-warning" class="audio-warning">
+            <span class="blink">♪</span> CLICK ANYWHERE TO INITIALIZE AUDIO SYSTEM <span class="blink">♪</span>
+        </div>
+
+        <!-- Main Communication Panel -->
+        <div class="comm-panel">
+            <div class="panel-section">
+                <div class="section-title">MESSAGE INPUT</div>
+                <div class="input-container">
+                    <input 
+                        type="text" 
+                        id="message-input" 
+                        class="retro-input" 
+                        placeholder="ENTER MESSAGE TO TRANSMIT..."
+                        maxlength="100"
+                        autocomplete="off"
+                    >
+                    <button id="transmit-btn" class="retro-button">
+                        <span class="button-bracket">[</span>TRANSMIT<span class="button-bracket">]</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Morse Code Transmission Display -->
+            <div class="panel-section">
+                <div class="section-title">SIGNAL TRANSMISSION MATRIX</div>
+                <div class="transmission-display">
+                    <div class="morse-lights">
+                        <div class="light-row">
+                            <div class="morse-light" data-index="0"></div>
+                            <div class="morse-light" data-index="1"></div>
+                            <div class="morse-light" data-index="2"></div>
+                            <div class="morse-light" data-index="3"></div>
+                            <div class="morse-light" data-index="4"></div>
+                        </div>
+                        <div class="light-row">
+                            <div class="morse-light" data-index="5"></div>
+                            <div class="morse-light" data-index="6"></div>
+                            <div class="morse-light" data-index="7"></div>
+                            <div class="morse-light" data-index="8"></div>
+                            <div class="morse-light" data-index="9"></div>
+                        </div>
+                        <div class="light-row">
+                            <div class="morse-light" data-index="10"></div>
+                            <div class="morse-light" data-index="11"></div>
+                            <div class="morse-light" data-index="12"></div>
+                            <div class="morse-light" data-index="13"></div>
+                            <div class="morse-light" data-index="14"></div>
+                        </div>
+                    </div>
+                    <div class="signal-indicator">
+                        <span id="signal-status">READY</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decoder Reference (Hidden by default) -->
+            <div class="panel-section">
+                <div class="section-title">
+                    MORSE DECODER REFERENCE
+                    <button id="toggle-decoder" class="small-button">[SHOW]</button>
+                </div>
+                <div id="decoder-panel" class="decoder-panel" style="display: none;">
+                    <div class="decoder-grid">
+                        <div class="decoder-item">A: ·−</div>
+                        <div class="decoder-item">B: −···</div>
+                        <div class="decoder-item">C: −·−·</div>
+                        <div class="decoder-item">D: −··</div>
+                        <div class="decoder-item">E: ·</div>
+                        <div class="decoder-item">F: ··−·</div>
+                        <div class="decoder-item">G: −−·</div>
+                        <div class="decoder-item">H: ····</div>
+                        <div class="decoder-item">I: ··</div>
+                        <div class="decoder-item">J: ·−−−</div>
+                        <div class="decoder-item">K: −·−</div>
+                        <div class="decoder-item">L: ·−··</div>
+                        <div class="decoder-item">M: −−</div>
+                        <div class="decoder-item">N: −·</div>
+                        <div class="decoder-item">O: −−−</div>
+                        <div class="decoder-item">P: ·−−·</div>
+                        <div class="decoder-item">Q: −−·−</div>
+                        <div class="decoder-item">R: ·−·</div>
+                        <div class="decoder-item">S: ···</div>
+                        <div class="decoder-item">T: −</div>
+                        <div class="decoder-item">U: ··−</div>
+                        <div class="decoder-item">V: ···−</div>
+                        <div class="decoder-item">W: ·−−</div>
+                        <div class="decoder-item">X: −··−</div>
+                        <div class="decoder-item">Y: −·−−</div>
+                        <div class="decoder-item">Z: −−··</div>
+                        <div class="decoder-item">0: −−−−−</div>
+                        <div class="decoder-item">1: ·−−−−</div>
+                        <div class="decoder-item">2: ··−−−</div>
+                        <div class="decoder-item">3: ···−−</div>
+                        <div class="decoder-item">4: ····−</div>
+                        <div class="decoder-item">5: ·····</div>
+                        <div class="decoder-item">6: −····</div>
+                        <div class="decoder-item">7: −−···</div>
+                        <div class="decoder-item">8: −−−··</div>
+                        <div class="decoder-item">9: −−−−·</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recovery Instructions -->
+            <div id="recovery-panel" class="recovery-panel" style="display: none;">
+                <div class="recovery-title">!!! POSSESSION DETECTED !!!</div>
+                <div class="recovery-text">EXECUTE RECOVERY SEQUENCE TO RESTORE CONTROL</div>
+                <div class="recovery-hint">HINT: UP UP DOWN DOWN </div>
+                <div class="recovery-progress">
+                    <span id="recovery-sequence"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="terminal-footer">
+            <div class="footer-text">
+                DOE CLEARANCE REQUIRED :: AUTHORIZED PERSONNEL ONLY
+            </div>
+            <div class="footer-warning">
+                <span class="blink">⚠</span> DIMENSIONAL BREACH IN PROGRESS <span class="blink">⚠</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="morse-beep" preload="auto"></audio>
+    <audio id="possession-sound" preload="auto"></audio>
+    <audio id="recovery-sound" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
