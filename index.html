@@ -56,102 +56,176 @@
             <span class="blink">♪</span> CLICK ANYWHERE TO INITIALIZE AUDIO SYSTEM <span class="blink">♪</span>
         </div>
 
+        <!-- Connection Status Indicators -->
+        <div class="status-indicators">
+            <div class="indicator">
+                <div class="indicator-light active" id="power-light"></div>
+                <span class="indicator-label">POWER</span>
+            </div>
+            <div class="indicator">
+                <div class="indicator-light active-cyan" id="signal-light"></div>
+                <span class="indicator-label">SIGNAL</span>
+            </div>
+            <div class="indicator">
+                <div class="indicator-light active-amber" id="link-light"></div>
+                <span class="indicator-label">LINK</span>
+            </div>
+            <div class="indicator">
+                <div class="indicator-light" id="error-light"></div>
+                <span class="indicator-label">ERROR</span>
+            </div>
+        </div>
+
         <!-- Main Communication Panel -->
         <div class="comm-panel">
-            <div class="panel-section">
-                <div class="section-title">MESSAGE INPUT</div>
-                <div class="input-container">
-                    <input 
-                        type="text" 
-                        id="message-input" 
-                        class="retro-input" 
-                        placeholder="ENTER MESSAGE TO TRANSMIT..."
-                        maxlength="100"
-                        autocomplete="off"
-                    >
-                    <button id="transmit-btn" class="retro-button">
-                        <span class="button-bracket">[</span>TRANSMIT<span class="button-bracket">]</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Morse Code Transmission Display -->
-            <div class="panel-section">
-                <div class="section-title">SIGNAL TRANSMISSION MATRIX</div>
-                <div class="transmission-display">
-                    <div class="morse-lights">
-                        <div class="light-row">
-                            <div class="morse-light" data-index="0"></div>
-                            <div class="morse-light" data-index="1"></div>
-                            <div class="morse-light" data-index="2"></div>
-                            <div class="morse-light" data-index="3"></div>
-                            <div class="morse-light" data-index="4"></div>
+            <div class="content-grid">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <div class="panel-section">
+                        <div class="section-title">MESSAGE INPUT</div>
+                        <div class="input-container">
+                            <input 
+                                type="text" 
+                                id="message-input" 
+                                class="retro-input" 
+                                placeholder="ENTER MESSAGE TO TRANSMIT..."
+                                maxlength="100"
+                                autocomplete="off"
+                            >
+                            <button id="transmit-btn" class="retro-button">
+                                <span class="button-bracket">[</span>TRANSMIT<span class="button-bracket">]</span>
+                            </button>
                         </div>
-                        <div class="light-row">
-                            <div class="morse-light" data-index="5"></div>
-                            <div class="morse-light" data-index="6"></div>
-                            <div class="morse-light" data-index="7"></div>
-                            <div class="morse-light" data-index="8"></div>
-                            <div class="morse-light" data-index="9"></div>
-                        </div>
-                        <div class="light-row">
-                            <div class="morse-light" data-index="10"></div>
-                            <div class="morse-light" data-index="11"></div>
-                            <div class="morse-light" data-index="12"></div>
-                            <div class="morse-light" data-index="13"></div>
-                            <div class="morse-light" data-index="14"></div>
+                        <!-- AI Suggestions -->
+                        <div class="ai-panel">
+                            <div class="ai-label">⚡ AI QUICK TRANSMISSIONS (Default Presets)</div>
+                            <div class="suggestion-buttons">
+                                <button class="suggestion-btn" data-msg="SOS">SOS</button>
+                                <button class="suggestion-btn" data-msg="HELP ME">HELP ME</button>
+                                <button class="suggestion-btn" data-msg="DANGER">DANGER</button>
+                                <button class="suggestion-btn" data-msg="ALL CLEAR">ALL CLEAR</button>
+                                <button class="suggestion-btn" data-msg="EVACUATE">EVACUATE</button>
+                                <button class="suggestion-btn" data-msg="INCOMING">INCOMING</button>
+                                <button class="suggestion-btn" data-msg="SAFE">SAFE</button>
+                                <button class="suggestion-btn" data-msg="EMERGENCY">EMERGENCY</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="signal-indicator">
-                        <span id="signal-status">READY</span>
+
+                    <!-- Morse Code Transmission Display -->
+                    <div class="panel-section">
+                        <div class="section-title">SIGNAL TRANSMISSION MATRIX</div>
+                        <div class="transmission-display">
+                            <div class="morse-lights">
+                                <div class="light-row">
+                                    <div class="morse-light" data-index="0"></div>
+                                    <div class="morse-light" data-index="1"></div>
+                                    <div class="morse-light" data-index="2"></div>
+                                    <div class="morse-light" data-index="3"></div>
+                                    <div class="morse-light" data-index="4"></div>
+                                </div>
+                                <div class="light-row">
+                                    <div class="morse-light" data-index="5"></div>
+                                    <div class="morse-light" data-index="6"></div>
+                                    <div class="morse-light" data-index="7"></div>
+                                    <div class="morse-light" data-index="8"></div>
+                                    <div class="morse-light" data-index="9"></div>
+                                </div>
+                                <div class="light-row">
+                                    <div class="morse-light" data-index="10"></div>
+                                    <div class="morse-light" data-index="11"></div>
+                                    <div class="morse-light" data-index="12"></div>
+                                    <div class="morse-light" data-index="13"></div>
+                                    <div class="morse-light" data-index="14"></div>
+                                </div>
+                            </div>
+                            <div class="signal-indicator">
+                                <span id="signal-status">READY</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Decoder Reference (Hidden by default) -->
+                    <div class="panel-section">
+                        <div class="section-title">
+                            MORSE DECODER REFERENCE
+                            <button id="toggle-decoder" class="small-button">[SHOW]</button>
+                        </div>
+                        <div id="decoder-panel" class="decoder-panel" style="display: none;">
+                            <div class="decoder-grid">
+                                <div class="decoder-item">A: ·−</div>
+                                <div class="decoder-item">B: −···</div>
+                                <div class="decoder-item">C: −·−·</div>
+                                <div class="decoder-item">D: −··</div>
+                                <div class="decoder-item">E: ·</div>
+                                <div class="decoder-item">F: ··−·</div>
+                                <div class="decoder-item">G: −−·</div>
+                                <div class="decoder-item">H: ····</div>
+                                <div class="decoder-item">I: ··</div>
+                                <div class="decoder-item">J: ·−−−</div>
+                                <div class="decoder-item">K: −·−</div>
+                                <div class="decoder-item">L: ·−··</div>
+                                <div class="decoder-item">M: −−</div>
+                                <div class="decoder-item">N: −·</div>
+                                <div class="decoder-item">O: −−−</div>
+                                <div class="decoder-item">P: ·−−·</div>
+                                <div class="decoder-item">Q: −−·−</div>
+                                <div class="decoder-item">R: ·−·</div>
+                                <div class="decoder-item">S: ···</div>
+                                <div class="decoder-item">T: −</div>
+                                <div class="decoder-item">U: ··−</div>
+                                <div class="decoder-item">V: ···−</div>
+                                <div class="decoder-item">W: ·−−</div>
+                                <div class="decoder-item">X: −··−</div>
+                                <div class="decoder-item">Y: −·−−</div>
+                                <div class="decoder-item">Z: −−··</div>
+                                <div class="decoder-item">0: −−−−−</div>
+                                <div class="decoder-item">1: ·−−−−</div>
+                                <div class="decoder-item">2: ··−−−</div>
+                                <div class="decoder-item">3: ···−−</div>
+                                <div class="decoder-item">4: ····−</div>
+                                <div class="decoder-item">5: ·····</div>
+                                <div class="decoder-item">6: −····</div>
+                                <div class="decoder-item">7: −−···</div>
+                                <div class="decoder-item">8: −−−··</div>
+                                <div class="decoder-item">9: −−−−·</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Decoder Reference (Hidden by default) -->
-            <div class="panel-section">
-                <div class="section-title">
-                    MORSE DECODER REFERENCE
-                    <button id="toggle-decoder" class="small-button">[SHOW]</button>
-                </div>
-                <div id="decoder-panel" class="decoder-panel" style="display: none;">
-                    <div class="decoder-grid">
-                        <div class="decoder-item">A: ·−</div>
-                        <div class="decoder-item">B: −···</div>
-                        <div class="decoder-item">C: −·−·</div>
-                        <div class="decoder-item">D: −··</div>
-                        <div class="decoder-item">E: ·</div>
-                        <div class="decoder-item">F: ··−·</div>
-                        <div class="decoder-item">G: −−·</div>
-                        <div class="decoder-item">H: ····</div>
-                        <div class="decoder-item">I: ··</div>
-                        <div class="decoder-item">J: ·−−−</div>
-                        <div class="decoder-item">K: −·−</div>
-                        <div class="decoder-item">L: ·−··</div>
-                        <div class="decoder-item">M: −−</div>
-                        <div class="decoder-item">N: −·</div>
-                        <div class="decoder-item">O: −−−</div>
-                        <div class="decoder-item">P: ·−−·</div>
-                        <div class="decoder-item">Q: −−·−</div>
-                        <div class="decoder-item">R: ·−·</div>
-                        <div class="decoder-item">S: ···</div>
-                        <div class="decoder-item">T: −</div>
-                        <div class="decoder-item">U: ··−</div>
-                        <div class="decoder-item">V: ···−</div>
-                        <div class="decoder-item">W: ·−−</div>
-                        <div class="decoder-item">X: −··−</div>
-                        <div class="decoder-item">Y: −·−−</div>
-                        <div class="decoder-item">Z: −−··</div>
-                        <div class="decoder-item">0: −−−−−</div>
-                        <div class="decoder-item">1: ·−−−−</div>
-                        <div class="decoder-item">2: ··−−−</div>
-                        <div class="decoder-item">3: ···−−</div>
-                        <div class="decoder-item">4: ····−</div>
-                        <div class="decoder-item">5: ·····</div>
-                        <div class="decoder-item">6: −····</div>
-                        <div class="decoder-item">7: −−···</div>
-                        <div class="decoder-item">8: −−−··</div>
-                        <div class="decoder-item">9: −−−−·</div>
+                <!-- Right Column -->
+                <div class="right-column">
+                    <!-- Transmission History -->
+                    <div class="panel-section history-panel">
+                        <div class="history-title">▣ TRANSMISSION LOG</div>
+                        <div class="history-log" id="history-log">
+                            <div class="history-entry">
+                                <span class="history-time">[READY]</span>
+                                <span class="history-message">SYSTEM INITIALIZED</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ML Stats Panel -->
+                    <div class="panel-section" style="background: rgba(0, 255, 255, 0.05); border-color: var(--cyan-dim);">
+                        <div class="section-title" style="color: var(--cyan-blue);">
+                            🤖 AI/ML ENGINE STATUS
+                        </div>
+                        <div style="font-size: 10px; padding: 10px; line-height: 1.8; color: var(--cyan-blue);">
+                            <div>▸ ALGORITHM: N-Gram Pattern Recognition</div>
+                            <div>▸ TRAINING: Real-time Adaptive Learning</div>
+                            <div>▸ PREDICTIONS: <span id="ml-pred-count">0</span> patterns learned</div>
+                            <div>▸ VOCAB SIZE: <span id="ml-vocab-size">0</span> unique words</div>
+                            <div>▸ ACCURACY: <span id="ml-accuracy">Initializing...</span></div>
+                            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--cyan-dim);">
+                                <strong>FEATURES:</strong><br>
+                                • Word frequency analysis<br>
+                                • Context-aware predictions<br>
+                                • Autocomplete (press TAB)<br>
+                                • Adaptive button learning
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

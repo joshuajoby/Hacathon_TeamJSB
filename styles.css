@@ -7,6 +7,11 @@
     --phosphor-green: #33ff33;
     --phosphor-dim: #1a8a1a;
     --phosphor-glow: rgba(51, 255, 51, 0.4);
+    --cyan-blue: #00ffff;
+    --cyan-dim: #008b8b;
+    --amber: #ffaa00;
+    --amber-dim: #cc8800;
+    --red-alert: #ff3333;
     --screen-bg: #0a0a0a;
     --terminal-bg: #000000;
     --danger-red: #ff3333;
@@ -594,3 +599,238 @@ body.possessed .morse-light.active {
 .footer-warning {
     user-select: none;
 }
+
+/* AI Suggestions Panel */
+.ai-panel {
+    background: rgba(0, 255, 255, 0.05);
+    border: 2px solid var(--cyan-dim);
+    padding: 12px;
+    margin-top: 10px;
+}
+
+.ai-label {
+    font-size: 11px;
+    color: var(--cyan-blue);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.suggestion-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.suggestion-btn {
+    background: transparent;
+    border: 1px solid var(--cyan-dim);
+    color: var(--cyan-blue);
+    font-family: 'Terminal', monospace;
+    font-size: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.suggestion-btn:hover {
+    background: var(--cyan-dim);
+    color: var(--terminal-bg);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.suggestion-btn.ai-learned {
+    border-color: var(--cyan-blue);
+    animation: ai-pulse 2s infinite;
+}
+
+@keyframes ai-pulse {
+    0%, 100% { border-color: var(--cyan-dim); }
+    50% { border-color: var(--cyan-blue); box-shadow: 0 0 5px rgba(0, 255, 255, 0.4); }
+}
+
+/* Autocomplete Suggestion */
+.autocomplete-suggestion {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 100px;
+    margin-top: 2px;
+    padding: 8px 12px;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--cyan-dim);
+    color: var(--cyan-blue);
+    font-family: 'Terminal', monospace;
+    font-size: 11px;
+    z-index: 10;
+    animation: blink 1s infinite;
+}
+
+.autocomplete-suggestion::before {
+    content: '💡 ';
+    margin-right: 4px;
+}
+
+.input-container {
+    position: relative;
+}
+
+/* Transmission History */
+.history-panel {
+    background: rgba(255, 170, 0, 0.05);
+    border: 2px solid var(--amber-dim);
+    padding: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.history-title {
+    font-size: 11px;
+    color: var(--amber);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--amber-dim);
+    padding-bottom: 4px;
+}
+
+.history-log {
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.history-entry {
+    padding: 4px 0;
+    border-bottom: 1px dashed rgba(255, 170, 0, 0.2);
+    color: var(--amber);
+}
+
+.history-entry:last-child {
+    border-bottom: none;
+}
+
+.history-time {
+    color: var(--amber-dim);
+    margin-right: 8px;
+}
+
+.history-message {
+    color: var(--amber);
+}
+
+/* Scrollbar for history */
+.history-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-panel::-webkit-scrollbar-track {
+    background: var(--terminal-bg);
+    border: 1px solid var(--amber-dim);
+}
+
+.history-panel::-webkit-scrollbar-thumb {
+    background: var(--amber-dim);
+}
+
+/* Connection Status Indicators */
+.status-indicators {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 12px;
+    background: rgba(51, 255, 51, 0.05);
+    border: 2px solid var(--phosphor-dim);
+    margin-bottom: 15px;
+}
+
+.indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+}
+
+.indicator-light {
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--phosphor-dim);
+    background: var(--terminal-bg);
+    position: relative;
+}
+
+.indicator-light.active {
+    background: var(--phosphor-green);
+    box-shadow: 0 0 10px var(--phosphor-glow);
+    animation: pulse-light 2s infinite;
+}
+
+.indicator-light.active-cyan {
+    background: var(--cyan-blue);
+    border-color: var(--cyan-dim);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    animation: pulse-light 2s infinite;
+}
+
+.indicator-light.active-amber {
+    background: var(--amber);
+    border-color: var(--amber-dim);
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
+    animation: pulse-light 2s infinite;
+}
+
+.indicator-light.active-red {
+    background: var(--red-alert);
+    border-color: #cc0000;
+    box-shadow: 0 0 10px rgba(255, 51, 51, 0.6);
+    animation: pulse-light 0.5s infinite;
+}
+
+body.possessed .indicator-light {
+    border-color: var(--possession-purple);
+}
+
+body.possessed .indicator-light.active {
+    background: var(--possession-purple);
+    box-shadow: 0 0 15px rgba(170, 0, 255, 0.6);
+}
+
+@keyframes pulse-light {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.indicator-label {
+    color: var(--phosphor-green);
+    letter-spacing: 1px;
+}
+
+/* Grid Layout for main content */
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+}
+
+.left-column,
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+@media (max-width: 968px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ML Stats highlighting */
+#ml-pred-count,
+#ml-vocab-size {
+    color: var(--phosphor-green);
+    font-weight: bold;
+}
+
+#ml-accuracy {
+    color: var(--cyan-blue);
+    font-weight: bold;
+}
+

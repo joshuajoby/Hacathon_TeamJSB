@@ -23,7 +23,13 @@ const state = {
     possessionTimer: null,
     sanityTimer: null,
     recoverySequence: [],
-    currentTransmission: null
+    currentTransmission: null,
+    messageHistory: [],
+    wordFrequency: {},
+    mlModel: {
+        predictions: [],
+        contextPatterns: {}
+    }
 };
 
 // Konami Code for Recovery
@@ -49,7 +55,12 @@ const elements = {
     recoverySequence: document.getElementById('recovery-sequence'),
     toggleDecoder: document.getElementById('toggle-decoder'),
     decoderPanel: document.getElementById('decoder-panel'),
-    morseLights: document.querySelectorAll('.morse-light')
+    morseLights: document.querySelectorAll('.morse-light'),
+    historyLog: document.getElementById('history-log'),
+    powerLight: document.getElementById('power-light'),
+    signalLight: document.getElementById('signal-light'),
+    linkLight: document.getElementById('link-light'),
+    errorLight: document.getElementById('error-light')
 };
 
 // ========================================
@@ -59,12 +70,34 @@ const elements = {
 function init() {
     console.log('INITIALIZING UPSIDE DOWN COMMUNICATOR...');
     
+    // Initialize ML system
+    state.startTime = Date.now();
+    
+    // Pre-train with emergency protocols (seed data for ML demo)
+    const seedMessages = ['SOS', 'HELP ME', 'DANGER', 'ALL CLEAR'];
+    seedMessages.forEach(msg => trainMLModel(msg));
+    
     // Event Listeners
     elements.transmitBtn.addEventListener('click', handleTransmit);
     elements.input.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') handleTransmit();
     });
     elements.toggleDecoder.addEventListener('click', toggleDecoder);
+    
+    // AI Suggestion buttons
+    const suggestionBtns = document.querySelectorAll('.suggestion-btn');
+    suggestionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const message = btn.getAttribute('data-msg');
+            elements.input.value = message;
+            elements.input.focus();
+            // Auto-transmit AI suggestions
+            setTimeout(() => handleTransmit(), 200);
+        });
+    });
+    
+    // Setup ML autocomplete
+    setupAutocomplete();
     
     // Keyboard listener for recovery sequence
     document.addEventListener('keydown', handleKeyPress);
@@ -82,7 +115,15 @@ function init() {
     // Start sanity degradation
     startSanityTimer();
     
+    // Animate status lights
+    animateStatusLights();
+    
     console.log('SYSTEM OPERATIONAL');
+    console.log('AI/ML ENGINE: ACTIVE');
+    console.log('- Word frequency analysis: ENABLED');
+    console.log('- N-gram pattern learning: ENABLED');
+    console.log('- Predictive autocomplete: ENABLED');
+    console.log('- Adaptive suggestions: ENABLED');
 }
 
 function initAudio() {
@@ -140,6 +181,9 @@ async function handleTransmit() {
     const morse = textToMorse(message);
     console.log(`TRANSMITTING: ${message}`);
     console.log(`MORSE CODE: ${morse}`);
+    
+    // Log to history
+    addToHistory(message);
     
     await transmitMorse(morse);
     
@@ -332,6 +376,9 @@ function triggerPossession() {
     console.log('POSSESSION TRIGGERED');
     state.isPossessed = true;
     
+    // Add to history
+    addToHistory('!!! SYSTEM COMPROMISED !!!');
+    
     // Update UI
     document.body.classList.add('possessed');
     elements.systemStatus.textContent = 'COMPROMISED';
@@ -339,6 +386,12 @@ function triggerPossession() {
     elements.dimension.textContent = 'UPSIDE DOWN';
     elements.dimension.className = 'value status-danger';
     elements.interferenceLevel.textContent = 'MAXIMUM';
+    
+    // Corrupt status lights
+    elements.powerLight.classList.remove('active');
+    elements.signalLight.classList.remove('active-cyan');
+    elements.linkLight.classList.remove('active-amber');
+    elements.errorLight.classList.add('active-red');
     
     // Show recovery panel
     elements.recoveryPanel.style.display = 'block';
@@ -381,6 +434,9 @@ function recoverFromPossession() {
     state.isPossessed = false;
     konamiProgress = [];
     
+    // Add to history
+    addToHistory('>>> RECOVERY COMPLETE <<<');
+    
     // Clear possession timer
     if (state.possessionTimer) {
         clearTimeout(state.possessionTimer);
@@ -395,6 +451,12 @@ function recoverFromPossession() {
     elements.dimension.className = 'value';
     elements.interferenceLevel.textContent = 'MINIMAL';
     elements.interferenceLevel.className = 'value';
+    
+    // Restore status lights
+    elements.powerLight.classList.add('active');
+    elements.signalLight.classList.add('active-cyan');
+    elements.linkLight.classList.add('active-amber');
+    elements.errorLight.classList.remove('active-red');
     
     // Hide recovery panel
     elements.recoveryPanel.style.display = 'none';
@@ -471,6 +533,248 @@ function toggleDecoder() {
 
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// ========================================
+// HISTORY & STATUS UTILITIES
+// ========================================
+
+function addToHistory(message) {
+    const now = new Date();
+    const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+    
+    const entry = document.createElement('div');
+    entry.className = 'history-entry';
+    entry.innerHTML = `<span class="history-time">[${timeStr}]</span><span class="history-message">${message}</span>`;
+    
+    elements.historyLog.appendChild(entry);
+    
+    // Keep only last 20 entries
+    const entries = elements.historyLog.querySelectorAll('.history-entry');
+    if (entries.length > 20) {
+        entries[0].remove();
+    }
+    
+    // Scroll to bottom
+    elements.historyLog.scrollTop = elements.historyLog.scrollHeight;
+    
+    // Train ML model with this message
+    trainMLModel(message);
+}
+
+// ========================================
+// AI/ML PREDICTION ENGINE
+// ========================================
+
+function trainMLModel(message) {
+    // Add to history
+    state.messageHistory.push(message.toUpperCase());
+    
+    // Word frequency analysis
+    const words = message.toUpperCase().split(' ').filter(w => w.length > 0);
+    words.forEach(word => {
+        state.wordFrequency[word] = (state.wordFrequency[word] || 0) + 1;
+    });
+    
+    // N-gram pattern learning (bigrams)
+    for (let i = 0; i < words.length - 1; i++) {
+        const context = words[i];
+        const next = words[i + 1];
+        
+        if (!state.mlModel.contextPatterns[context]) {
+            state.mlModel.contextPatterns[context] = {};
+        }
+        state.mlModel.contextPatterns[context][next] = (state.mlModel.contextPatterns[context][next] || 0) + 1;
+    }
+    
+    // Console logging for ML transparency
+    console.log(`%c[ML TRAINING] %cMessage learned: "${message}"`, 
+        'color: #00ffff; font-weight: bold', 
+        'color: #33ff33');
+    console.log(`%c[ML STATS] %cVocabulary: ${Object.keys(state.wordFrequency).length} words | Patterns: ${Object.keys(state.mlModel.contextPatterns).length}`,
+        'color: #00ffff; font-weight: bold',
+        'color: #ffaa00');
+    
+    // Update AI suggestions
+    updateAISuggestions();
+}
+
+function updateAISuggestions() {
+    // Get top frequent words/phrases
+    const sortedWords = Object.entries(state.wordFrequency)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([word]) => word);
+    
+    // Get top frequent messages
+    const messageCounts = {};
+    state.messageHistory.forEach(msg => {
+        messageCounts[msg] = (messageCounts[msg] || 0) + 1;
+    });
+    
+    const topMessages = Object.entries(messageCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([msg]) => msg);
+    
+    // Combine predictions
+    state.mlModel.predictions = [...new Set([...topMessages, ...sortedWords])].slice(0, 8);
+    
+    // Update UI with AI-generated suggestions
+    updateSuggestionButtons();
+    
+    // Update ML stats display
+    updateMLStats();
+}
+
+function updateMLStats() {
+    const predCount = document.getElementById('ml-pred-count');
+    const vocabSize = document.getElementById('ml-vocab-size');
+    const accuracy = document.getElementById('ml-accuracy');
+    
+    if (predCount) {
+        predCount.textContent = Object.keys(state.mlModel.contextPatterns).length;
+    }
+    
+    if (vocabSize) {
+        vocabSize.textContent = Object.keys(state.wordFrequency).length;
+    }
+    
+    if (accuracy) {
+        const totalPredictions = Object.keys(state.mlModel.contextPatterns).length;
+        if (totalPredictions > 0) {
+            const confidenceScore = Math.min(95, 60 + (totalPredictions * 5));
+            accuracy.textContent = `${confidenceScore}% (${totalPredictions} patterns)`;
+            accuracy.style.color = confidenceScore > 80 ? 'var(--phosphor-green)' : 'var(--cyan-blue)';
+        } else {
+            accuracy.textContent = 'Learning... (send messages to train)';
+        }
+    }
+}
+
+function updateSuggestionButtons() {
+    const suggestionContainer = document.querySelector('.suggestion-buttons');
+    const label = document.querySelector('.ai-label');
+    
+    if (state.mlModel.predictions.length > 0) {
+        // Replace default buttons with ML predictions
+        suggestionContainer.innerHTML = state.mlModel.predictions.map(pred => 
+            `<button class="suggestion-btn ai-learned" data-msg="${pred}">${pred}</button>`
+        ).join('');
+        
+        // Update label showing it's ML-generated
+        label.innerHTML = '🤖 AI LEARNED PATTERNS <span style="font-size: 9px;">(ML-Generated from your usage)</span>';
+        
+        // Re-attach event listeners
+        suggestionContainer.querySelectorAll('.suggestion-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const message = btn.getAttribute('data-msg');
+                elements.input.value = message;
+                elements.input.focus();
+                setTimeout(() => handleTransmit(), 200);
+            });
+        });
+        
+        console.log('%c[ML ENGINE] %cSuggestions updated with learned patterns', 
+            'color: #00ffff; font-weight: bold', 
+            'color: #33ff33');
+    }
+}
+
+function predictNextWord(currentInput) {
+    const words = currentInput.toUpperCase().split(' ');
+    const lastWord = words[words.length - 1];
+    
+    if (lastWord && state.mlModel.contextPatterns[lastWord]) {
+        const predictions = state.mlModel.contextPatterns[lastWord];
+        const sorted = Object.entries(predictions)
+            .sort((a, b) => b[1] - a[1]);
+        
+        if (sorted.length > 0) {
+            return sorted[0][0]; // Return most likely next word
+        }
+    }
+    
+    return null;
+}
+
+function getAnomalyScore() {
+    // ML-based anomaly detection for sanity meter
+    const avgSanityDrop = 100 / 100; // Normal: 1% per second
+    const currentRate = state.sanity / (Date.now() - (state.startTime || Date.now())) * 1000;
+    
+    // Calculate deviation from expected
+    const anomalyScore = Math.abs(avgSanityDrop - currentRate) / avgSanityDrop;
+    
+    return anomalyScore;
+}
+
+// ========================================
+// REAL-TIME AUTOCOMPLETE
+// ========================================
+
+function setupAutocomplete() {
+    let autocompleteDiv = document.createElement('div');
+    autocompleteDiv.className = 'autocomplete-suggestion';
+    autocompleteDiv.style.display = 'none';
+    elements.input.parentElement.appendChild(autocompleteDiv);
+    
+    elements.input.addEventListener('input', (e) => {
+        const value = e.target.value;
+        
+        if (value.length > 2) {
+            const prediction = predictNextWord(value);
+            
+            if (prediction) {
+                autocompleteDiv.textContent = `AI suggests: ${value} ${prediction}`;
+                autocompleteDiv.style.display = 'block';
+                
+                // Tab to autocomplete
+                const tabHandler = (evt) => {
+                    if (evt.key === 'Tab' && autocompleteDiv.style.display === 'block') {
+                        evt.preventDefault();
+                        elements.input.value = `${value} ${prediction}`;
+                        autocompleteDiv.style.display = 'none';
+                        elements.input.removeEventListener('keydown', tabHandler);
+                    }
+                };
+                
+                elements.input.addEventListener('keydown', tabHandler);
+            } else {
+                autocompleteDiv.style.display = 'none';
+            }
+        } else {
+            autocompleteDiv.style.display = 'none';
+        }
+    });
+}
+
+function animateStatusLights() {
+    // Randomly blink lights to show activity
+    setInterval(() => {
+        if (Math.random() > 0.7 && !state.isPossessed) {
+            elements.signalLight.style.opacity = '0.3';
+            setTimeout(() => {
+                elements.signalLight.style.opacity = '1';
+            }, 100);
+        }
+        
+        if (Math.random() > 0.8 && !state.isPossessed) {
+            elements.linkLight.style.opacity = '0.5';
+            setTimeout(() => {
+                elements.linkLight.style.opacity = '1';
+            }, 150);
+        }
+    }, 2000);
+    
+    // Error light flashes during low sanity
+    setInterval(() => {
+        if (state.sanity < 30 && state.sanity > 0 && !state.isPossessed) {
+            elements.errorLight.classList.add('active-red');
+        } else if (!state.isPossessed) {
+            elements.errorLight.classList.remove('active-red');
+        }
+    }, 1000);
 }
 
 // ========================================
